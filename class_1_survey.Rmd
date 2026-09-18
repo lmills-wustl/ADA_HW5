@@ -25,6 +25,14 @@ C1survey<-
 
 ```
 
+```{r}
+#Create separate csv data file for Git Users
+write.csv(C1survey, "C1survey_updated.csv")
+
+```
+
+
+
 ##### 2. Determine: **a.** the number of observations (i.e. the number of people who filled out the survey) and **b.** the number of variables in the dataframe.
 
 ```{r}
@@ -57,11 +65,9 @@ names(C1survey)[1:27] <-c("id", "like_cats", "like_dogs", "have_desert", "slogan
 ##### 4. Write code to determine and display the number of factor, integer, numerical, and character variables there are in the *C1survey* dataset. **Suggestion**: Try to ask ChatGPT for a solution if you are unsure. There is a really short answer to this but we want to see what students come up with!
 
 ```{r}
-
 var_types <- sapply(C1survey, class)
 type_counts<- table(var_types)
 print(type_counts)
-
 ```
 
 ##### 5. **a.** Using code, check the *bday* and *bmonth* variables for any unusual or missing values (**hint**: use table function). If you find any, **b.** describe what you will do with the unusual values in a comment before or immediately following the code that does it, and **c.** after you have cleaned up any unusual values, find the median bday and month. \*Note: please make sure that your bday and month variables are numeric before doing statistics
@@ -125,21 +131,33 @@ table(C1survey$bseason)
 
 #b: Table of seasons by bmonths
 table(C1survey$bmonth_clean,useNA="always")
-table1(~bseason+bmonth_clean, data=C1survey)
+seasons_table<- table(bmonths= C1survey$bmonth_clean, Season=C1survey$bseason)
+addmargins(seasons_table)
 ```
 
 ##### 7. Pick your favorite variable or variables to analyze, come up with a question you want to answer with that variable or variables, generate the code, and provide an answer to your question. Describe what you did using comments (i.e. \#'s).
 
-RQ: Does an individual's birthday month influence their season preference? 
+RQ: Is an individual's birthday month related to their season preference? 
 
 ```{r}
-
-
+ #View data for favorite season
+table(C1survey$fav_season,useNA="always")
 
 
 ```
+```{r}
+#comparision table between favorite season and birth season
 
+season_compare <- table(fav_season = C1survey$fav_season, BdaySeason= C1survey$bseason)
 
+season_compare
 
+```
 
+```{r}
+#running a chi square and fischer exact test to compare two categorical variables; You should normally  check assumptions before, but I decided to just run them both for the sake of this assignment. 
 
+chisq.test(season_compare)
+fisher.test(season_compare)
+```
+Both Fisher's and Chi-square test demonstrated there is not a significant association between birthday month season and season preference.
