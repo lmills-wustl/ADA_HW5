@@ -7,7 +7,7 @@ real-world data in R Markdown.
 
 ## Files Included
 - `class1_survey.csv`: Cleaned version of the Class 1 survey dataset
-- `analysis_code.Rmd`: R script used to summarize and visualize the data
+- `class_1_survey.Rmd`: R script used to summarize and visualize the data
 - `README.md`: This file
 
 ## What the Code Does
